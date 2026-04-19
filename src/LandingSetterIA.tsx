@@ -49,10 +49,48 @@ const LandingSetterIA: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background text-slate-100 relative overflow-hidden">
-      {/* Ambient glow */}
-      <div className="pointer-events-none fixed top-0 -left-40 w-[600px] h-[600px] bg-primary-600/20 rounded-full blur-[160px]" />
-      <div className="pointer-events-none fixed bottom-0 -right-40 w-[600px] h-[600px] bg-brand-violet/20 rounded-full blur-[160px]" />
-      <div className="pointer-events-none fixed top-1/2 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-cyan/5 rounded-full blur-[160px]" />
+      {/* Animated ambient background */}
+      <div className="pointer-events-none fixed inset-0 z-0">
+        {/* Radial vignette permanente */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(139,92,246,0.18),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_100%,rgba(99,102,241,0.18),transparent_70%)]" />
+
+        {/* Blobs animados */}
+        <div className="absolute top-[10%] -left-40 w-[520px] h-[520px] bg-brand-violet/25 rounded-full blur-[150px] animate-blob-1" />
+        <div className="absolute top-[40%] -right-40 w-[560px] h-[560px] bg-primary-600/25 rounded-full blur-[160px] animate-blob-2" />
+        <div className="absolute bottom-[5%] left-1/3 w-[500px] h-[500px] bg-brand-violet/20 rounded-full blur-[160px] animate-blob-3" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-primary-500/10 rounded-full blur-[160px] animate-pulse-slow" />
+
+        {/* Grid sutil */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(139,92,246,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(139,92,246,0.8) 1px, transparent 1px)',
+            backgroundSize: '60px 60px',
+          }}
+        />
+      </div>
+
+      <style>{`
+        @keyframes blob1 {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(80px, 40px) scale(1.1); }
+          66% { transform: translate(-40px, 80px) scale(0.95); }
+        }
+        @keyframes blob2 {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(-60px, 60px) scale(1.05); }
+          66% { transform: translate(40px, -50px) scale(0.9); }
+        }
+        @keyframes blob3 {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(60px, -80px) scale(1.15); }
+        }
+        .animate-blob-1 { animation: blob1 22s ease-in-out infinite; }
+        .animate-blob-2 { animation: blob2 28s ease-in-out infinite; }
+        .animate-blob-3 { animation: blob3 25s ease-in-out infinite; }
+      `}</style>
 
       {/* NAV */}
       <nav className="relative z-20 max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
@@ -114,7 +152,7 @@ const LandingSetterIA: React.FC = () => {
           </h2>
         </div>
 
-        <div className="relative aspect-video rounded-[2rem] overflow-hidden glass-card border border-white/10 group cursor-pointer">
+        <div className="relative aspect-video rounded-[2rem] overflow-hidden glass-card border border-brand-violet/30 group cursor-pointer">
           {/* Reemplaza este bloque por tu <video> o <iframe> de YouTube/Vimeo */}
           <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-primary-600/20 via-brand-violet/10 to-transparent">
             <div className="text-center">
@@ -172,7 +210,7 @@ const LandingSetterIA: React.FC = () => {
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Competencia */}
-          <div className="glass-card p-8 rounded-3xl border border-white/5 opacity-80">
+          <div className="glass-card p-8 rounded-3xl border border-brand-violet/20 opacity-80">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-2xl bg-slate-700/30 flex items-center justify-center">
                 <Bot size={20} className="text-slate-400" />
@@ -240,10 +278,10 @@ const LandingSetterIA: React.FC = () => {
 
       {/* FUNDADORES */}
       <section className="relative z-10 max-w-6xl mx-auto px-6 py-24">
-        <div className="glass-card rounded-[2.5rem] p-8 md:p-12 border border-white/10">
+        <div className="glass-card rounded-[2.5rem] p-8 md:p-12 border border-brand-violet/30">
           <div className="grid md:grid-cols-[380px_1fr] gap-10 items-center">
             {/* Foto */}
-            <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden bg-gradient-to-br from-primary-600/20 via-brand-violet/10 to-transparent border border-white/10">
+            <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden bg-gradient-to-br from-primary-600/20 via-brand-violet/10 to-transparent border border-brand-violet/30">
               <img
                 src="/founders.jpg"
                 alt="Jose Maria Casamitjana y Andrea Trujillo"
@@ -278,7 +316,7 @@ const LandingSetterIA: React.FC = () => {
                   { n: '+11 años', l: 'En el sector' },
                   { n: '+400', l: 'Llamadas agendadas' },
                 ].map((s, i) => (
-                  <div key={i} className="text-center p-4 rounded-2xl bg-black/30 border border-white/5">
+                  <div key={i} className="text-center p-4 rounded-2xl bg-black/30 border border-brand-violet/20">
                     <div className="text-2xl md:text-3xl font-black text-primary-400 tracking-tighter">{s.n}</div>
                     <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">{s.l}</div>
                   </div>
@@ -304,7 +342,7 @@ const LandingSetterIA: React.FC = () => {
           </p>
         </div>
 
-        <div className="glass-card rounded-[2.5rem] p-8 md:p-12 border border-white/10">
+        <div className="glass-card rounded-[2.5rem] p-8 md:p-12 border border-brand-violet/30">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-10">
             {[
               'Contacto',
@@ -324,7 +362,7 @@ const LandingSetterIA: React.FC = () => {
             ))}
           </div>
 
-          <div className="flex items-center justify-center gap-3 pt-6 border-t border-white/5">
+          <div className="flex items-center justify-center gap-3 pt-6 border-t border-brand-violet/20">
             <GraduationCap size={18} className="text-brand-emerald" />
             <p className="text-xs font-bold text-slate-400 text-center">
               Sistema validado y entrenado con la mejor formación de setting del sector fitness.
@@ -409,7 +447,7 @@ const LandingSetterIA: React.FC = () => {
           </p>
           <button
             type="button"
-            className="inline-flex items-center gap-3 bg-white/[0.04] border border-white/10 px-8 py-4 rounded-2xl font-bold uppercase tracking-wider text-sm text-slate-400 cursor-not-allowed"
+            className="inline-flex items-center gap-3 bg-white/[0.04] border border-brand-violet/30 px-8 py-4 rounded-2xl font-bold uppercase tracking-wider text-sm text-slate-400 cursor-not-allowed"
             disabled
           >
             <Bot size={16} /> Demo disponible próximamente
@@ -436,7 +474,7 @@ const LandingSetterIA: React.FC = () => {
               [1, 2, 3, 4, 5, 6].map((i) => (
                 <div
                   key={`v-${rep}-${i}`}
-                  className="relative flex-shrink-0 w-[300px] md:w-[340px] h-[380px] rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-br from-primary-600/20 via-brand-violet/10 to-transparent cursor-pointer group"
+                  className="relative flex-shrink-0 w-[300px] md:w-[340px] h-[380px] rounded-3xl overflow-hidden border border-brand-violet/30 bg-gradient-to-br from-primary-600/20 via-brand-violet/10 to-transparent cursor-pointer group"
                 >
                   <img
                     src={`/testimonios/videos/${i}.jpg`}
@@ -446,7 +484,7 @@ const LandingSetterIA: React.FC = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center group-hover:bg-primary-500/40 group-hover:scale-110 transition-all">
+                    <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-brand-violet/40 flex items-center justify-center group-hover:bg-primary-500/40 group-hover:scale-110 transition-all">
                       <PlayCircle size={44} className="text-white" strokeWidth={1.5} />
                     </div>
                   </div>
@@ -469,7 +507,7 @@ const LandingSetterIA: React.FC = () => {
               [1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
                 <div
                   key={`s-${rep}-${i}`}
-                  className="testimonio-card group relative flex-shrink-0 w-[180px] md:w-[220px] h-[320px] glass-card rounded-2xl border border-white/10 p-1.5 overflow-visible cursor-zoom-in"
+                  className="testimonio-card group relative flex-shrink-0 w-[180px] md:w-[220px] h-[320px] glass-card rounded-2xl border border-brand-violet/30 p-1.5 overflow-visible cursor-zoom-in"
                 >
                   {/* Imagen recortada en estado normal */}
                   <img
@@ -617,7 +655,7 @@ const LandingSetterIA: React.FC = () => {
                     required
                     type={f.type}
                     placeholder={f.placeholder}
-                    className="w-full bg-black/40 border border-white/5 p-4 rounded-2xl text-white font-bold outline-none focus:border-primary-500/50 transition-all placeholder:text-slate-700"
+                    className="w-full bg-black/40 border border-brand-violet/20 p-4 rounded-2xl text-white font-bold outline-none focus:border-primary-500/50 transition-all placeholder:text-slate-700"
                   />
                 </div>
               ))}
@@ -628,7 +666,7 @@ const LandingSetterIA: React.FC = () => {
                 </label>
                 <select
                   required
-                  className="w-full bg-black/40 border border-white/5 p-4 rounded-2xl text-white font-bold outline-none focus:border-primary-500/50 transition-all"
+                  className="w-full bg-black/40 border border-brand-violet/20 p-4 rounded-2xl text-white font-bold outline-none focus:border-primary-500/50 transition-all"
                 >
                   <option value="">Selecciona tu perfil</option>
                   <option>Entrenador personal</option>
@@ -654,7 +692,7 @@ const LandingSetterIA: React.FC = () => {
       </section>
 
       {/* FOOTER */}
-      <footer className="relative z-10 border-t border-white/5 mt-20">
+      <footer className="relative z-10 border-t border-brand-violet/20 mt-20">
         <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <img src="/logo.png" alt="Automatia" className="w-7 h-7 object-contain filter invert brightness-150" />
