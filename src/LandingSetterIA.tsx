@@ -653,15 +653,6 @@ const LandingSetterIA: React.FC = () => {
         </div>
       </section>
 
-      {/* CIERRE */}
-      <section className="relative z-10 max-w-3xl mx-auto px-6 py-20 text-center">
-        <TrendingUp size={32} className="text-primary-400 mx-auto mb-6" />
-        <h2 className="text-3xl md:text-5xl font-black tracking-tighter premium-gradient-text leading-tight">
-          No necesitas más fuerza de voluntad.<br />
-          Necesitas un <span className="text-primary-500">sistema</span>.
-        </h2>
-      </section>
-
       {/* FOOTER */}
       <footer className="relative z-10 border-t border-white/5 mt-20">
         <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
