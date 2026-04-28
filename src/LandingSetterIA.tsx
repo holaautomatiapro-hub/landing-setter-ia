@@ -147,13 +147,6 @@ const LandingSetterIA: React.FC = () => {
           </a>
         </div>
 
-        {/* Trust bar */}
-        <div className="flex flex-wrap justify-center gap-x-10 gap-y-4 text-xs font-bold text-slate-500 uppercase tracking-widest">
-          <div className="flex items-center gap-2"><Clock size={14} className="text-primary-400" /> Entrega en 15 días</div>
-          <div className="flex items-center gap-2"><Brain size={14} className="text-brand-violet" /> Prompt 100% personalizado</div>
-          <div className="flex items-center gap-2"><Headphones size={14} className="text-brand-cyan" /> Soporte diario</div>
-          <div className="flex items-center gap-2"><Users size={14} className="text-brand-emerald" /> Comunidad privada</div>
-        </div>
       </section>
 
       {/* VIDEO */}
