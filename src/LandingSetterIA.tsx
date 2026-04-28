@@ -751,18 +751,34 @@ const LandingSetterIA: React.FC = () => {
           >
             ×
           </button>
+          {/* Marco de móvil */}
           <div
-            className="relative h-[90vh] aspect-[9/16] rounded-3xl overflow-hidden border border-brand-violet/40 shadow-2xl shadow-brand-violet/30 bg-black"
+            className="relative h-[92vh] aspect-[9/19] bg-gradient-to-b from-zinc-900 via-black to-zinc-900 rounded-[3rem] border-[3px] border-zinc-700/80 shadow-[0_0_60px_rgba(139,92,246,0.35),inset_0_0_2px_rgba(255,255,255,0.1)] p-[10px]"
             onClick={(e) => e.stopPropagation()}
           >
-            <iframe
-              key={playingVideoId}
-              src={`https://www.youtube.com/embed/${playingVideoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
-              title="Testimonio"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              className="w-full h-full block"
-            />
+            {/* Botones laterales del móvil */}
+            <div className="absolute -left-[3px] top-[18%] w-[3px] h-10 bg-zinc-700 rounded-l" />
+            <div className="absolute -left-[3px] top-[26%] w-[3px] h-16 bg-zinc-700 rounded-l" />
+            <div className="absolute -left-[3px] top-[34%] w-[3px] h-16 bg-zinc-700 rounded-l" />
+            <div className="absolute -right-[3px] top-[24%] w-[3px] h-20 bg-zinc-700 rounded-r" />
+
+            {/* Pantalla */}
+            <div className="relative w-full h-full rounded-[2.4rem] overflow-hidden bg-black">
+              <iframe
+                key={playingVideoId}
+                src={`https://www.youtube.com/embed/${playingVideoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+                title="Testimonio"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full block"
+              />
+
+              {/* Dynamic Island */}
+              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-7 bg-black rounded-full z-30 shadow-[inset_0_0_2px_rgba(255,255,255,0.1)]" />
+
+              {/* Home indicator */}
+              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-28 h-1 bg-white/50 rounded-full z-30" />
+            </div>
           </div>
         </div>
       )}
