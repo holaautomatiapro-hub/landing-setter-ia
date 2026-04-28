@@ -39,10 +39,13 @@ const InlineCta: React.FC = () => (
 );
 
 // Vídeos disponibles (sube el archivo a public/testimonios/videos/{n}.mp4 y añade el número aquí)
-// Testimonios en vídeo de YouTube (Shorts). Para añadir más, suelta el ID aquí.
-const VIDEO_TESTIMONIALS: { id: string }[] = [
+// Testimonios en vídeo de YouTube (Shorts).
+// Para añadir más: { id: 'YOUTUBE_ID', thumbnail?: '/testimonios/videos/X.jpg' }
+// Si no especificas thumbnail, se usa el auto-generado por YouTube.
+const VIDEO_TESTIMONIALS: { id: string; thumbnail?: string }[] = [
   { id: 'u_pgRdinRe0' },
   { id: 'QIZInV4t7pc' },
+  { id: 'cjzxovA3VQo', thumbnail: '/testimonios/videos/3.jpg' },
 ];
 const TOTAL_VIDEO_SLOTS = 6;
 
@@ -496,12 +499,14 @@ const LandingSetterIA: React.FC = () => {
                   >
                     {available && (
                       <img
-                        src={`https://img.youtube.com/vi/${video!.id}/maxresdefault.jpg`}
+                        src={video!.thumbnail || `https://img.youtube.com/vi/${video!.id}/maxresdefault.jpg`}
                         alt={`Video testimonio ${slotNumber}`}
                         className="absolute inset-0 w-full h-full object-cover"
                         onError={(e) => {
-                          // fallback a hqdefault si no hay maxres
-                          (e.currentTarget as HTMLImageElement).src = `https://img.youtube.com/vi/${video!.id}/hqdefault.jpg`;
+                          // fallback a hqdefault si no hay maxres ni thumbnail custom
+                          if (!video!.thumbnail) {
+                            (e.currentTarget as HTMLImageElement).src = `https://img.youtube.com/vi/${video!.id}/hqdefault.jpg`;
+                          }
                         }}
                       />
                     )}
