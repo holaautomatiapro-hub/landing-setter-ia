@@ -445,29 +445,6 @@ const LandingSetterIA: React.FC = () => {
           ))}
         </div>
 
-        {/* Y MUCHO MÁS — features adicionales */}
-        <div className="text-center mb-10">
-          <p className="text-slate-500 text-xs font-black uppercase tracking-[0.3em]">— y además —</p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {[
-            { icon: Brain, title: 'Prompt 100% personalizado', text: 'Entrenado con tu metodología, tu tono y tus objeciones reales.' },
-            { icon: MessageSquare, title: 'Respuesta instantánea 24/7', text: 'Menos de 60 segundos. Ni festivos ni vacaciones ni enfado.' },
-            { icon: Calendar, title: 'Agendado automático', text: 'Tu calendario se llena solo — citas confirmadas sin tú intervenir.' },
-            { icon: Headphones, title: 'Soporte diario', text: 'Acceso directo al equipo para ajustes sobre la marcha.' },
-            { icon: Users, title: 'Comunidad privada', text: 'Entrenadores, nutris y fisios compartiendo lo que funciona.' },
-            { icon: Layers, title: 'Ajustes semanales', text: 'Revisamos conversaciones reales y optimizamos el prompt cada semana.' },
-          ].map(({ icon: Icon, title, text }, i) => (
-            <div key={i} className="glass-card p-6 rounded-3xl hover:border-primary-500/30 transition-all group">
-              <div className="w-12 h-12 rounded-2xl bg-primary-600/10 flex items-center justify-center mb-4 group-hover:bg-primary-600/20 transition-colors">
-                <Icon size={20} className="text-primary-400" />
-              </div>
-              <h4 className="font-black text-base mb-2">{title}</h4>
-              <p className="text-slate-400 text-sm leading-relaxed">{text}</p>
-            </div>
-          ))}
-        </div>
       </section>
 
       <InlineCta />
