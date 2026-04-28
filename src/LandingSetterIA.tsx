@@ -38,9 +38,13 @@ const InlineCta: React.FC = () => (
   </div>
 );
 
+// Vídeos disponibles (sube el archivo a public/testimonios/videos/{n}.mp4 y añade el número aquí)
+const AVAILABLE_VIDEOS = [1];
+
 const LandingSetterIA: React.FC = () => {
   const [formStatus, setFormStatus] = useState<'idle' | 'sent'>('idle');
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [playingVideo, setPlayingVideo] = useState<number | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -471,28 +475,42 @@ const LandingSetterIA: React.FC = () => {
 
           <div className="flex gap-5 animate-marquee-slow w-max">
             {[...Array(2)].flatMap((_, rep) =>
-              [1, 2, 3, 4, 5, 6].map((i) => (
-                <div
-                  key={`v-${rep}-${i}`}
-                  className="relative flex-shrink-0 w-[300px] md:w-[340px] h-[380px] rounded-3xl overflow-hidden border border-brand-violet/30 bg-gradient-to-br from-primary-600/20 via-brand-violet/10 to-transparent cursor-pointer group"
-                >
-                  <img
-                    src={`/testimonios/videos/${i}.jpg`}
-                    alt={`Video testimonio ${i}`}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-brand-violet/40 flex items-center justify-center group-hover:bg-primary-500/40 group-hover:scale-110 transition-all">
-                      <PlayCircle size={44} className="text-white" strokeWidth={1.5} />
+              [1, 2, 3, 4, 5, 6].map((i) => {
+                const available = AVAILABLE_VIDEOS.includes(i);
+                return (
+                  <div
+                    key={`v-${rep}-${i}`}
+                    onClick={() => available && setPlayingVideo(i)}
+                    className={`relative flex-shrink-0 w-[300px] md:w-[340px] h-[380px] rounded-3xl overflow-hidden border bg-gradient-to-br from-primary-600/20 via-brand-violet/10 to-transparent group transition-all ${
+                      available
+                        ? 'border-brand-violet/60 cursor-pointer hover:scale-[1.02] shadow-lg shadow-brand-violet/20'
+                        : 'border-brand-violet/30 cursor-default opacity-70'
+                    }`}
+                  >
+                    <img
+                      src={`/testimonios/videos/${i}.jpg`}
+                      alt={`Video testimonio ${i}`}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className={`w-20 h-20 rounded-full backdrop-blur-md border border-brand-violet/40 flex items-center justify-center transition-all ${
+                        available
+                          ? 'bg-brand-violet/30 group-hover:bg-brand-violet/60 group-hover:scale-110'
+                          : 'bg-white/10'
+                      }`}>
+                        <PlayCircle size={44} className="text-white" strokeWidth={1.5} />
+                      </div>
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
+                      <p className="text-white text-xs font-black uppercase tracking-widest opacity-70">
+                        {available ? 'Ver testimonio' : `Próximamente`}
+                      </p>
                     </div>
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
-                    <p className="text-white text-xs font-black uppercase tracking-widest opacity-60">Vídeo {i}</p>
-                  </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>
@@ -707,6 +725,35 @@ const LandingSetterIA: React.FC = () => {
           </div>
         </div>
       </footer>
+
+      {/* MODAL REPRODUCTOR DE VÍDEO */}
+      {playingVideo !== null && (
+        <div
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-black/85 backdrop-blur-md p-4"
+          onClick={() => setPlayingVideo(null)}
+        >
+          <button
+            onClick={() => setPlayingVideo(null)}
+            className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-brand-violet/40 flex items-center justify-center text-white text-2xl font-black transition-all"
+            aria-label="Cerrar"
+          >
+            ×
+          </button>
+          <div
+            className="relative max-w-5xl w-full max-h-[90vh] rounded-3xl overflow-hidden border border-brand-violet/40 shadow-2xl shadow-brand-violet/30 bg-black"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <video
+              key={playingVideo}
+              src={`/testimonios/videos/${playingVideo}.mp4`}
+              controls
+              autoPlay
+              playsInline
+              className="w-full h-auto max-h-[90vh] block"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
