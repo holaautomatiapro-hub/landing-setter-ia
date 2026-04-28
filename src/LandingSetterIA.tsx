@@ -444,26 +444,65 @@ const LandingSetterIA: React.FC = () => {
 
       <InlineCta />
 
-      {/* DEMO (habilitada, sin contenido real) */}
-      <section className="relative z-10 max-w-5xl mx-auto px-6 py-24">
-        <div className="glass-card rounded-[2.5rem] p-10 md:p-14 text-center border border-primary-500/20">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-600/10 border border-primary-500/20 mb-6">
-            <Gauge size={12} className="text-primary-400" />
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-300">Demo interactiva</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-black tracking-tighter mb-4 premium-gradient-text">
-            Prueba cómo hablaría tu Setter IA PRO
+      {/* APP PROPIA — capturas */}
+      <section className="relative z-10 max-w-6xl mx-auto px-6 py-24">
+        <div className="text-center mb-16">
+          <p className="text-primary-400 font-black text-xs uppercase tracking-[0.4em] mb-4">Tu propia app</p>
+          <h2 className="text-4xl md:text-5xl font-black tracking-tighter premium-gradient-text mb-4">
+            Controla tu Setter IA<br />desde un solo sitio.
           </h2>
-          <p className="text-slate-400 max-w-xl mx-auto mb-8">
-            Conversa con un asistente configurado para un caso real de entrenador personal. Observa cómo filtra, gestiona objeciones y agenda.
+          <p className="text-slate-400 max-w-2xl mx-auto">
+            No es un Excel ni un dashboard genérico. Es <span className="text-white font-bold">nuestra propia app</span>{' '}
+            — diseñada para que veas en tiempo real lo que tu Setter IA está haciendo por tu negocio.
           </p>
-          <button
-            type="button"
-            className="inline-flex items-center gap-3 bg-white/[0.04] border border-brand-violet/30 px-8 py-4 rounded-2xl font-bold uppercase tracking-wider text-sm text-slate-400 cursor-not-allowed"
-            disabled
-          >
-            <Bot size={16} /> Demo disponible próximamente
-          </button>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            {
+              icon: BarChart3,
+              tag: 'Métricas',
+              title: 'Panel de métricas en vivo',
+              text: 'Ve en directo cuántos leads has captado, cuántas agendas se han cerrado y dónde está perdiendo o ganando tu negocio. Decisiones basadas en datos, no en intuición.',
+              img: '/app/metricas.png',
+            },
+            {
+              icon: Users,
+              tag: 'Leads',
+              title: 'CRM integrado de leads',
+              text: 'Cada conversación queda registrada, etiquetada y clasificada. Sabes el estado de cada lead, sus objeciones y dónde se quedó la conversación. Cero leads perdidos.',
+              img: '/app/leads.png',
+            },
+            {
+              icon: Settings,
+              tag: 'Configuración',
+              title: 'Ajustes a tu medida',
+              text: 'Modifica el prompt, los flujos, las objeciones y el tono cuando quieras. Tu Setter IA evoluciona contigo sin depender de nadie. Total autonomía.',
+              img: '/app/configuracion.png',
+            },
+          ].map(({ icon: Icon, tag, title, text, img }, i) => (
+            <div key={i} className="glass-card rounded-3xl border border-brand-violet/30 overflow-hidden flex flex-col group hover:border-brand-violet/60 transition-all">
+              {/* Captura */}
+              <div className="relative aspect-[16/10] overflow-hidden bg-black border-b border-brand-violet/20">
+                <img
+                  src={img}
+                  alt={title}
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute top-3 left-3 flex items-center gap-2 px-3 py-1 rounded-full bg-brand-violet/20 backdrop-blur-md border border-brand-violet/40">
+                  <Icon size={12} className="text-white" />
+                  <span className="text-[10px] font-black text-white uppercase tracking-widest">{tag}</span>
+                </div>
+              </div>
+
+              {/* Texto */}
+              <div className="p-6 flex flex-col gap-3 flex-1">
+                <h3 className="font-black text-lg">{title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">{text}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
