@@ -24,6 +24,7 @@ import {
   PlayCircle,
   Trophy,
   GraduationCap,
+  Settings,
 } from 'lucide-react';
 
 const InlineCta: React.FC = () => (
