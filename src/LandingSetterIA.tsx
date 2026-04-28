@@ -386,20 +386,73 @@ const LandingSetterIA: React.FC = () => {
 
       <InlineCta />
 
-      {/* QUÉ INCLUYE */}
+      {/* QUÉ RECIBES */}
       <section className="relative z-10 max-w-6xl mx-auto px-6 py-24">
-        <div className="text-center mb-16">
+        <div className="text-center mb-14">
           <p className="text-primary-400 font-black text-xs uppercase tracking-[0.4em] mb-4">Qué recibes</p>
-          <h2 className="text-4xl md:text-5xl font-black tracking-tighter premium-gradient-text">
+          <h2 className="text-4xl md:text-5xl font-black tracking-tighter premium-gradient-text mb-4">
             Todo lo que tu setter humano<br />nunca te dio.
           </h2>
+          <p className="text-slate-400 max-w-2xl mx-auto">
+            No es un Excel ni un dashboard genérico. Es <span className="text-white font-bold">nuestra propia app</span>{' '}
+            — diseñada para que veas en tiempo real lo que tu Setter IA está haciendo por tu negocio.
+          </p>
+        </div>
+
+        {/* CAPTURAS DE LA APP */}
+        <div className="grid md:grid-cols-3 gap-6 mb-16">
+          {[
+            {
+              icon: BarChart3,
+              tag: 'Métricas',
+              title: 'Panel de métricas en vivo',
+              text: 'Ve en directo cuántos leads has captado, cuántas agendas se han cerrado y dónde está perdiendo o ganando tu negocio. Decisiones basadas en datos, no en intuición.',
+              img: '/app/metricas.png',
+            },
+            {
+              icon: Users,
+              tag: 'Leads',
+              title: 'CRM integrado de leads',
+              text: 'Cada conversación queda registrada, etiquetada y clasificada. Sabes el estado de cada lead, sus objeciones y dónde se quedó la conversación. Cero leads perdidos.',
+              img: '/app/leads.png',
+            },
+            {
+              icon: Settings,
+              tag: 'Configuración',
+              title: 'Ajustes a tu medida',
+              text: 'Modifica el prompt, los flujos, las objeciones y el tono cuando quieras. Tu Setter IA evoluciona contigo sin depender de nadie. Total autonomía.',
+              img: '/app/configuracion.png',
+            },
+          ].map(({ icon: Icon, tag, title, text, img }, i) => (
+            <div key={i} className="glass-card rounded-3xl border border-brand-violet/30 overflow-hidden flex flex-col group hover:border-brand-violet/60 transition-all">
+              <div className="relative aspect-[16/10] overflow-hidden bg-black border-b border-brand-violet/20">
+                <img
+                  src={img}
+                  alt={title}
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute top-3 left-3 flex items-center gap-2 px-3 py-1 rounded-full bg-brand-violet/20 backdrop-blur-md border border-brand-violet/40">
+                  <Icon size={12} className="text-white" />
+                  <span className="text-[10px] font-black text-white uppercase tracking-widest">{tag}</span>
+                </div>
+              </div>
+              <div className="p-6 flex flex-col gap-3 flex-1">
+                <h3 className="font-black text-lg">{title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">{text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Y MUCHO MÁS — features adicionales */}
+        <div className="text-center mb-10">
+          <p className="text-slate-500 text-xs font-black uppercase tracking-[0.3em]">— y además —</p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
           {[
             { icon: Brain, title: 'Prompt 100% personalizado', text: 'Entrenado con tu metodología, tu tono y tus objeciones reales.' },
-            { icon: BarChart3, title: 'Panel de métricas en vivo', text: 'Conversiones, respuestas, agendas y objeciones — todo medible.' },
-            { icon: Target, title: 'Gestión integral de leads', text: 'CRM propio donde cada lead queda registrado, etiquetado y seguido.' },
             { icon: MessageSquare, title: 'Respuesta instantánea 24/7', text: 'Menos de 60 segundos. Ni festivos ni vacaciones ni enfado.' },
             { icon: Calendar, title: 'Agendado automático', text: 'Tu calendario se llena solo — citas confirmadas sin tú intervenir.' },
             { icon: Headphones, title: 'Soporte diario', text: 'Acceso directo al equipo para ajustes sobre la marcha.' },
@@ -438,70 +491,6 @@ const LandingSetterIA: React.FC = () => {
               <div className="text-6xl font-black text-brand-violet tracking-tighter mb-2 drop-shadow-[0_0_20px_rgba(139,92,246,0.4)]">{s.step}</div>
               <h4 className="font-black text-xl mb-3">{s.title}</h4>
               <p className="text-slate-400 leading-relaxed">{s.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <InlineCta />
-
-      {/* APP PROPIA — capturas */}
-      <section className="relative z-10 max-w-6xl mx-auto px-6 py-24">
-        <div className="text-center mb-16">
-          <p className="text-primary-400 font-black text-xs uppercase tracking-[0.4em] mb-4">Tu propia app</p>
-          <h2 className="text-4xl md:text-5xl font-black tracking-tighter premium-gradient-text mb-4">
-            Controla tu Setter IA<br />desde un solo sitio.
-          </h2>
-          <p className="text-slate-400 max-w-2xl mx-auto">
-            No es un Excel ni un dashboard genérico. Es <span className="text-white font-bold">nuestra propia app</span>{' '}
-            — diseñada para que veas en tiempo real lo que tu Setter IA está haciendo por tu negocio.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-6">
-          {[
-            {
-              icon: BarChart3,
-              tag: 'Métricas',
-              title: 'Panel de métricas en vivo',
-              text: 'Ve en directo cuántos leads has captado, cuántas agendas se han cerrado y dónde está perdiendo o ganando tu negocio. Decisiones basadas en datos, no en intuición.',
-              img: '/app/metricas.png',
-            },
-            {
-              icon: Users,
-              tag: 'Leads',
-              title: 'CRM integrado de leads',
-              text: 'Cada conversación queda registrada, etiquetada y clasificada. Sabes el estado de cada lead, sus objeciones y dónde se quedó la conversación. Cero leads perdidos.',
-              img: '/app/leads.png',
-            },
-            {
-              icon: Settings,
-              tag: 'Configuración',
-              title: 'Ajustes a tu medida',
-              text: 'Modifica el prompt, los flujos, las objeciones y el tono cuando quieras. Tu Setter IA evoluciona contigo sin depender de nadie. Total autonomía.',
-              img: '/app/configuracion.png',
-            },
-          ].map(({ icon: Icon, tag, title, text, img }, i) => (
-            <div key={i} className="glass-card rounded-3xl border border-brand-violet/30 overflow-hidden flex flex-col group hover:border-brand-violet/60 transition-all">
-              {/* Captura */}
-              <div className="relative aspect-[16/10] overflow-hidden bg-black border-b border-brand-violet/20">
-                <img
-                  src={img}
-                  alt={title}
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute top-3 left-3 flex items-center gap-2 px-3 py-1 rounded-full bg-brand-violet/20 backdrop-blur-md border border-brand-violet/40">
-                  <Icon size={12} className="text-white" />
-                  <span className="text-[10px] font-black text-white uppercase tracking-widest">{tag}</span>
-                </div>
-              </div>
-
-              {/* Texto */}
-              <div className="p-6 flex flex-col gap-3 flex-1">
-                <h3 className="font-black text-lg">{title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">{text}</p>
-              </div>
             </div>
           ))}
         </div>
