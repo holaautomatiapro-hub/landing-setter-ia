@@ -44,7 +44,7 @@ const InlineCta: React.FC = () => (
 // Si no especificas thumbnail, se usa el auto-generado por YouTube.
 const VIDEO_TESTIMONIALS: { id: string; thumbnail?: string }[] = [
   { id: 'u_pgRdinRe0' },
-  { id: 'QIZInV4t7pc' },
+  { id: 'QIZInV4t7pc', thumbnail: '/testimonios/videos/2.jpg' },
   { id: 'cjzxovA3VQo', thumbnail: '/testimonios/videos/3.jpg' },
 ];
 const TOTAL_VIDEO_SLOTS = 6;
