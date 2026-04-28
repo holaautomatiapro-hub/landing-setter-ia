@@ -44,7 +44,7 @@ const InlineCta: React.FC = () => (
 // Para añadir más: { id: 'YOUTUBE_ID', thumbnail?: '/testimonios/videos/X.jpg' }
 // Si no especificas thumbnail, se usa el auto-generado por YouTube.
 const VIDEO_TESTIMONIALS: { id: string; thumbnail?: string }[] = [
-  { id: 'u_pgRdinRe0' },
+  { id: 'u_pgRdinRe0', thumbnail: '/testimonios/videos/1.jpg' },
   { id: 'QIZInV4t7pc', thumbnail: '/testimonios/videos/2.jpg' },
   { id: 'cjzxovA3VQo', thumbnail: '/testimonios/videos/3.jpg' },
 ];
