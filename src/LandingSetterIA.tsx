@@ -39,7 +39,7 @@ const InlineCta: React.FC = () => (
 );
 
 // Vídeos disponibles (sube el archivo a public/testimonios/videos/{n}.mp4 y añade el número aquí)
-const AVAILABLE_VIDEOS = [1];
+const AVAILABLE_VIDEOS = [1, 2];
 
 const LandingSetterIA: React.FC = () => {
   const [formStatus, setFormStatus] = useState<'idle' | 'sent'>('idle');
