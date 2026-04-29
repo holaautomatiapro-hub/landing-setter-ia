@@ -27,6 +27,27 @@ import {
   Settings,
 } from 'lucide-react';
 
+// Hook que devuelve true cuando el ref entra en el viewport (una sola vez)
+const useInView = (threshold = 0.25) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (!ref.current || inView) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [threshold, inView]);
+  return { ref, inView };
+};
+
 // Componente que cuenta de 0 al valor final cuando entra en el viewport
 const AnimatedCounter: React.FC<{ value: number; prefix?: string; suffix?: string; duration?: number }> = ({
   value,
@@ -83,6 +104,107 @@ const InlineCta: React.FC = () => (
     </a>
   </div>
 );
+
+const ComparativaSection: React.FC = () => {
+  const { ref, inView } = useInView(0.2);
+  return (
+    <section id="comparativa" ref={ref} className="relative z-10 max-w-6xl mx-auto px-6 py-24 overflow-hidden">
+      <div className="text-center mb-16">
+        <p className="text-primary-400 font-black text-xs uppercase tracking-[0.4em] mb-4">Comparativa</p>
+        <h2 className="text-4xl md:text-5xl font-black tracking-tighter premium-gradient-text mb-4">
+          Setter genérico vs. Setter IA PRO
+        </h2>
+        <p className="text-slate-400 max-w-2xl mx-auto">
+          La mayoría de soluciones del mercado son bots genéricos.
+          Nuestro setter se construye específicamente para tu negocio.
+        </p>
+      </div>
+
+      <div className="relative grid md:grid-cols-2 gap-6 md:gap-10">
+        {/* Competencia — entra desde la izquierda */}
+        <div
+          className={`glass-card p-8 rounded-3xl border border-brand-violet/20 opacity-80 transition-all duration-[900ms] ease-out ${
+            inView ? 'translate-x-0 opacity-80' : '-translate-x-32 opacity-0'
+          }`}
+        >
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-2xl bg-slate-700/30 flex items-center justify-center">
+              <Bot size={20} className="text-slate-400" />
+            </div>
+            <div>
+              <h3 className="font-black text-lg">Setter IA genérico</h3>
+              <p className="text-xs text-slate-500 uppercase tracking-widest font-bold">Competencia · 297€/mes</p>
+            </div>
+          </div>
+          <ul className="space-y-3 mt-6">
+            {[
+              'Prompt estándar reutilizado con todos los clientes',
+              'Respuestas robóticas que espantan leads',
+              'Métricas básicas',
+              'Sin gestión centralizada de leads',
+              'Soporte por ticket con respuesta en días',
+              'Cero comunidad, cero networking',
+            ].map((t, i) => (
+              <li key={i} className="flex items-start gap-3 text-sm text-slate-400">
+                <XCircle size={16} className="text-rose-400 mt-0.5 flex-shrink-0" />
+                <span>{t}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Nosotros — entra desde la derecha */}
+        <div
+          className={`relative glass-card p-8 rounded-3xl border border-primary-500/40 shadow-2xl shadow-primary-600/20 transition-all duration-[900ms] ease-out ${
+            inView ? 'translate-x-0 opacity-100' : 'translate-x-32 opacity-0'
+          }`}
+        >
+          <div className="absolute -top-3 left-8 px-3 py-1 rounded-full bg-primary-600 text-[10px] font-black uppercase tracking-widest">
+            Recomendado
+          </div>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-2xl bg-primary-600/20 flex items-center justify-center">
+              <Sparkles size={20} className="text-primary-400" />
+            </div>
+            <div>
+              <h3 className="font-black text-lg">Setter IA PRO</h3>
+              <p className="text-xs text-primary-400 uppercase tracking-widest font-bold">Servicio personalizado</p>
+            </div>
+          </div>
+          <ul className="space-y-3 mt-6">
+            {[
+              'Prompt 100% adaptado a tu nicho y tono de marca',
+              'Respuestas humanas indistinguibles de un setter real',
+              'Panel profesional con métricas en vivo',
+              'Gestión integral de todos tus leads desde un solo lugar',
+              'Soporte diario — no pasan días, pasan horas',
+              'Comunidad privada con otros profesionales del sector',
+            ].map((t, i) => (
+              <li key={i} className="flex items-start gap-3 text-sm text-slate-200">
+                <CheckCircle2 size={16} className="text-brand-emerald mt-0.5 flex-shrink-0" />
+                <span>{t}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* VS centro */}
+        <div
+          className={`hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-primary-600 via-brand-violet to-primary-600 shadow-2xl shadow-brand-violet/60 border-4 border-background transition-all duration-700 ease-out ${
+            inView ? 'scale-100 opacity-100 rotate-0' : 'scale-0 opacity-0 rotate-180'
+          }`}
+          style={{ transitionDelay: inView ? '600ms' : '0ms' }}
+        >
+          <span className="text-2xl font-black tracking-tighter text-white drop-shadow-lg">VS</span>
+        </div>
+      </div>
+
+      <p className="text-center text-xs text-slate-600 mt-8 uppercase tracking-widest font-bold">
+        * Comparativa basada en servicios disponibles en el mercado a fecha de hoy.
+      </p>
+    </section>
+  );
+};
 
 // Vídeos disponibles (sube el archivo a public/testimonios/videos/{n}.mp4 y añade el número aquí)
 // Testimonios en vídeo de YouTube (Shorts).
@@ -247,83 +369,7 @@ const LandingSetterIA: React.FC = () => {
       <InlineCta />
 
       {/* COMPARATIVA */}
-      <section id="comparativa" className="relative z-10 max-w-6xl mx-auto px-6 py-24">
-        <div className="text-center mb-16">
-          <p className="text-primary-400 font-black text-xs uppercase tracking-[0.4em] mb-4">Comparativa</p>
-          <h2 className="text-4xl md:text-5xl font-black tracking-tighter premium-gradient-text mb-4">
-            Setter genérico vs. Setter IA PRO
-          </h2>
-          <p className="text-slate-400 max-w-2xl mx-auto">
-            La mayoría de soluciones del mercado son bots genéricos.
-            Nuestro setter se construye específicamente para tu negocio.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Competencia */}
-          <div className="glass-card p-8 rounded-3xl border border-brand-violet/20 opacity-80">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-2xl bg-slate-700/30 flex items-center justify-center">
-                <Bot size={20} className="text-slate-400" />
-              </div>
-              <div>
-                <h3 className="font-black text-lg">Setter IA genérico</h3>
-                <p className="text-xs text-slate-500 uppercase tracking-widest font-bold">Competencia · 297€/mes</p>
-              </div>
-            </div>
-            <ul className="space-y-3 mt-6">
-              {[
-                'Prompt estándar reutilizado con todos los clientes',
-                'Respuestas robóticas que espantan leads',
-                'Métricas básicas',
-                'Sin gestión centralizada de leads',
-                'Soporte por ticket con respuesta en días',
-                'Cero comunidad, cero networking',
-              ].map((t, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm text-slate-400">
-                  <XCircle size={16} className="text-rose-400 mt-0.5 flex-shrink-0" />
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Nosotros */}
-          <div className="relative glass-card p-8 rounded-3xl border border-primary-500/40 shadow-2xl shadow-primary-600/20">
-            <div className="absolute -top-3 left-8 px-3 py-1 rounded-full bg-primary-600 text-[10px] font-black uppercase tracking-widest">
-              Recomendado
-            </div>
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-2xl bg-primary-600/20 flex items-center justify-center">
-                <Sparkles size={20} className="text-primary-400" />
-              </div>
-              <div>
-                <h3 className="font-black text-lg">Setter IA PRO</h3>
-                <p className="text-xs text-primary-400 uppercase tracking-widest font-bold">Servicio personalizado</p>
-              </div>
-            </div>
-            <ul className="space-y-3 mt-6">
-              {[
-                'Prompt 100% adaptado a tu nicho y tono de marca',
-                'Respuestas humanas indistinguibles de un setter real',
-                'Panel profesional con métricas en vivo',
-                'Gestión integral de todos tus leads desde un solo lugar',
-                'Soporte diario — no pasan días, pasan horas',
-                'Comunidad privada con otros profesionales del sector',
-              ].map((t, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm text-slate-200">
-                  <CheckCircle2 size={16} className="text-brand-emerald mt-0.5 flex-shrink-0" />
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <p className="text-center text-xs text-slate-600 mt-8 uppercase tracking-widest font-bold">
-          * Comparativa basada en servicios disponibles en el mercado a fecha de hoy.
-        </p>
-      </section>
+      <ComparativaSection />
 
       <InlineCta />
 
@@ -376,50 +422,6 @@ const LandingSetterIA: React.FC = () => {
                 ))}
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <InlineCta />
-
-      {/* 7 FASES DE CUALIFICACIÓN */}
-      <section className="relative z-10 max-w-6xl mx-auto px-6 py-24">
-        <div className="text-center mb-14">
-          <p className="text-primary-400 font-black text-xs uppercase tracking-[0.4em] mb-4">Metodología propia</p>
-          <h2 className="text-4xl md:text-5xl font-black tracking-tighter premium-gradient-text mb-4">
-            7 Fases de Cualificación
-          </h2>
-          <p className="text-slate-400 max-w-2xl mx-auto">
-            Entrenado con <span className="text-white font-bold">la mejor formación de setting para profesionales del fitness</span>{' '}
-            del mercado y validado por más de 500 profesionales de la salud.
-          </p>
-        </div>
-
-        <div className="glass-card rounded-[2.5rem] p-8 md:p-12 border border-brand-violet/30">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-10">
-            {[
-              'Contacto',
-              'Contexto',
-              'Dolor',
-              'Objetivo',
-              'Objeciones',
-              'Compromiso',
-              'Cierre',
-            ].map((phase, i) => (
-              <div key={i} className="relative flex flex-col items-center text-center">
-                <div className="w-14 h-14 rounded-2xl bg-primary-600 flex items-center justify-center text-white font-black text-lg shadow-xl shadow-primary-600/30 mb-3">
-                  {i + 1}
-                </div>
-                <p className="text-xs font-black uppercase tracking-widest text-slate-300">{phase}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex items-center justify-center gap-3 pt-6 border-t border-brand-violet/20">
-            <GraduationCap size={18} className="text-brand-emerald" />
-            <p className="text-xs font-bold text-slate-400 text-center">
-              Sistema validado y entrenado con la mejor formación de setting del sector fitness.
-            </p>
           </div>
         </div>
       </section>
