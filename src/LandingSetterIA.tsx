@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   ArrowRight,
   Zap,
@@ -26,6 +26,51 @@ import {
   GraduationCap,
   Settings,
 } from 'lucide-react';
+
+// Componente que cuenta de 0 al valor final cuando entra en el viewport
+const AnimatedCounter: React.FC<{ value: number; prefix?: string; suffix?: string; duration?: number }> = ({
+  value,
+  prefix = '',
+  suffix = '',
+  duration = 1200,
+}) => {
+  const [current, setCurrent] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (!ref.current || hasAnimated) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasAnimated(true);
+          const start = performance.now();
+          const animate = (now: number) => {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            // ease-out cubic
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setCurrent(Math.round(value * eased));
+            if (progress < 1) requestAnimationFrame(animate);
+          };
+          requestAnimationFrame(animate);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [value, duration, hasAnimated]);
+
+  return (
+    <span ref={ref}>
+      {prefix}
+      {current.toLocaleString('es-ES')}
+      {suffix}
+    </span>
+  );
+};
 
 const InlineCta: React.FC = () => (
   <div className="relative z-10 max-w-6xl mx-auto px-6 py-10 flex justify-center">
@@ -318,13 +363,15 @@ const LandingSetterIA: React.FC = () => {
 
               <div className="grid grid-cols-3 gap-4">
                 {[
-                  { n: '+250K€', l: 'Facturados' },
-                  { n: '+11 años', l: 'En el sector' },
-                  { n: '+400', l: 'Llamadas agendadas' },
+                  { value: 250, prefix: '+', suffix: 'K€', label: 'Facturados' },
+                  { value: 11, prefix: '+', suffix: ' años', label: 'En el sector' },
+                  { value: 400, prefix: '+', suffix: '', label: 'Llamadas agendadas' },
                 ].map((s, i) => (
                   <div key={i} className="text-center p-4 rounded-2xl bg-black/30 border border-brand-violet/20">
-                    <div className="text-2xl md:text-3xl font-black text-primary-400 tracking-tighter">{s.n}</div>
-                    <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">{s.l}</div>
+                    <div className="text-2xl md:text-3xl font-black text-primary-400 tracking-tighter">
+                      <AnimatedCounter value={s.value} prefix={s.prefix} suffix={s.suffix} duration={1200} />
+                    </div>
+                    <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">{s.label}</div>
                   </div>
                 ))}
               </div>
