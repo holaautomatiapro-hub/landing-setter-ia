@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cómo crear tu landing prellamada — Claude Cowork</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #07090f;
+  --surface: #0d1117;
+  --card:    #111620;
+  --border:  #1e2535;
+  --accent:  #6c3fff;
+  --accent2: #00d4ff;
+  --accent3: #ff4ecd;
+  --text:    #e8eaf0;
+  --muted:   #5a6480;
+  --tag-bg:  rgba(108,63,255,.12);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  line-height:1.6;
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* GRID BG */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(108,63,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(108,63,255,.04) 1px, transparent 1px);
+  background-size:48px 48px;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ORBS */
+.orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
+.orb-1{width:600px;height:600px;background:rgba(108,63,255,.18);top:-200px;left:-150px}
+.orb-2{width:500px;height:500px;background:rgba(0,212,255,.12);bottom:-100px;right:-100px}
+.orb-3{width:350px;height:350px;background:rgba(255,78,205,.10);top:40%;left:50%;transform:translate(-50%,-50%)}
+
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(20px) saturate(1.4);
+  background:rgba(7,9,15,.72);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  height:64px;max-width:860px;margin:0 auto;padding:0 24px;
+}
+.nav-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1rem;letter-spacing:-.02em;color:var(--text);text-decoration:none}
+.nav-logo span{color:var(--accent2)}
+.nav-logo-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-logo-icon svg{width:18px;height:18px;fill:#fff}
+.nav-badge{
+  background:var(--tag-bg);
+  border:1px solid rgba(108,63,255,.3);
+  color:var(--accent2);
+  font-size:.72rem;font-weight:600;
+  padding:4px 12px;border-radius:100px;
+  letter-spacing:.06em;text-transform:uppercase;
+}
+
+/* WRAP */
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 24px 100px}
+
+/* HERO */
+.hero{text-align:center;padding:80px 24px 64px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(108,63,255,.1);
+  border:1px solid rgba(108,63,255,.3);
+  border-radius:100px;padding:6px 18px;
+  font-size:.78rem;font-weight:600;
+  color:var(--accent2);letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:28px;
+}
+.hero h1{
+  font-size:clamp(1.9rem,5vw,3rem);
+  font-weight:900;letter-spacing:-.04em;line-height:1.1;
+  margin-bottom:18px;
+}
+.hero h1 .grad{
+  background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{max-width:580px;margin:0 auto 40px;color:var(--muted);font-size:1rem;line-height:1.7}
+
+/* INTRO CARD */
+.intro-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;padding:36px 40px;
+  margin-bottom:40px;
+  position:relative;overflow:hidden;
+}
+.intro-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));
+}
+.intro-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.intro-title{font-size:1.1rem;font-weight:800;margin-bottom:12px;letter-spacing:-.02em}
+.intro-text{font-size:.97rem;color:var(--muted);line-height:1.8}
+
+/* STEPS */
+.step-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;padding:36px 40px;
+  margin-bottom:20px;
+  position:relative;overflow:hidden;
+  transition:border-color .2s;
+}
+.step-card:hover{border-color:rgba(108,63,255,.4)}
+.step-header{display:flex;align-items:flex-start;gap:18px;margin-bottom:24px}
+.step-num{
+  flex-shrink:0;width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;font-weight:800;color:#fff;
+  box-shadow:0 0 20px rgba(108,63,255,.35);
+}
+.step-titles{flex:1}
+.step-eyebrow{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.step-title{font-size:1.15rem;font-weight:800;letter-spacing:-.02em}
+
+.step-body p{font-size:.96rem;color:rgba(232,234,240,.78);line-height:1.78;margin-bottom:14px}
+.step-body p:last-child{margin-bottom:0}
+.step-body p strong{color:var(--text);font-weight:600}
+
+/* ALERT */
+.alert{
+  background:rgba(108,63,255,.07);
+  border:1px solid rgba(108,63,255,.2);
+  border-left:3px solid var(--accent);
+  border-radius:0 12px 12px 0;
+  padding:16px 20px;margin:18px 0;
+}
+.alert-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.alert p{font-size:.93rem;color:rgba(232,234,240,.75);margin-bottom:0;line-height:1.7}
+.alert p strong{color:var(--text)}
+
+/* LISTS */
+.step-ol{list-style:none;display:flex;flex-direction:column;gap:12px;margin:18px 0}
+.step-ol li{display:flex;align-items:flex-start;gap:14px;font-size:.95rem;line-height:1.65;color:rgba(232,234,240,.78)}
+.step-ol li strong{color:var(--text)}
+.li-num{
+  flex-shrink:0;width:24px;height:24px;
+  background:rgba(108,63,255,.15);
+  border:1px solid rgba(108,63,255,.25);
+  border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;font-weight:700;color:var(--accent2);
+}
+.li-txt{padding-top:2px}
+
+/* CODE INLINE */
+code{
+  background:#020408;
+  border:1px solid #1a2035;
+  border-radius:6px;
+  padding:2px 7px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.84em;
+  color:var(--accent2);
+}
+
+/* PROMPT */
+.prompt{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:20px 24px;
+  margin:18px 0;
+  display:flex;align-items:center;gap:16px;
+}
+.prompt-icon{
+  flex-shrink:0;width:36px;height:36px;
+  background:rgba(108,63,255,.15);
+  border:1px solid rgba(108,63,255,.25);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+}
+.prompt-icon svg{width:18px;height:18px;fill:var(--accent)}
+.prompt p{color:rgba(232,234,240,.9);font-size:1rem;font-style:italic;margin:0}
+
+/* SUBSECTION */
+.subsection{margin-top:28px}
+.subsection-title{
+  font-size:.72rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent2);
+  padding-bottom:10px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:18px;
+}
+
+/* RECURSOS */
+.recursos-section{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:36px 40px;
+  margin-top:40px;
+  position:relative;overflow:hidden;
+}
+.recursos-section::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--accent3),var(--accent),var(--accent2));
+}
+.recursos-title{font-size:1.05rem;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.recursos-sub{font-size:.88rem;color:var(--muted);margin-bottom:24px}
+.recurso-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:20px 24px;
+  display:flex;align-items:center;gap:16px;
+  cursor:pointer;
+  transition:border-color .2s,transform .2s;
+}
+.recurso-card:hover{border-color:rgba(108,63,255,.5);transform:translateY(-2px)}
+.recurso-icon{
+  flex-shrink:0;width:44px;height:44px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+}
+.recurso-icon svg{width:22px;height:22px;fill:#fff}
+.recurso-info p{font-size:.78rem;color:var(--muted);margin-bottom:2px}
+.recurso-info strong{font-size:.97rem;color:var(--text);font-weight:600}
+.recurso-cta{margin-left:auto;font-size:.8rem;font-weight:700;color:var(--accent2);white-space:nowrap;letter-spacing:.04em}
+
+/* FOOTER */
+.footer{
+  text-align:center;
+  margin-top:56px;padding-top:32px;
+  border-top:1px solid var(--border);
+}
+.footer p{font-size:.82rem;color:var(--muted)}
+.footer strong{
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  font-weight:700;
+}
+
+@media(max-width:600px){
+  .wrap{padding:0 16px 80px}
+  .step-card,.intro-card,.recursos-section{padding:24px 22px}
+  .hero{padding:60px 0 48px}
+}
+</style>
+</head>
+<body>
+
+<!-- ORBS -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+      </div>
+      Claude <span>Cowork</span>
+    </a>
+    <span class="nav-badge">Guía práctica</span>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">⚡ Paso a paso</div>
+    <h1>Cómo crear tu <span class="grad">landing prellamada</span></h1>
+    <p class="hero-sub">Guía completa para crear y publicar tu página de captación con inteligencia artificial, en menos de una hora.</p>
+  </div>
+
+  <!-- INTRO -->
+  <div class="intro-card">
+    <p class="intro-eyebrow">¿Para qué sirve esta landing?</p>
+    <p class="intro-title">Más ventas, menos tiempo perdido</p>
+    <p class="intro-text">Cuando alguien agenda una llamada contigo, en lugar de enviarle simplemente un vídeo, le envías un enlace a una página profesional con tu vídeo de presentación, los pilares de tu programa, casos de éxito y preguntas frecuentes. La persona llega a la llamada más cualificada, más informada y con más confianza en ti. El resultado: más ventas y menos tiempo perdido con personas que no encajan.</p>
+  </div>
+
+  <!-- PASO 1 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div class="step-titles">
+        <p class="step-eyebrow">Paso 1</p>
+        <h2 class="step-title">Sube los vídeos a YouTube</h2>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Todos los vídeos que quieras incluir en la landing deben estar subidos a YouTube antes de empezar. Esto incluye el vídeo de presentación del programa y cualquier testimonio en vídeo de clientes.</p>
+      <div class="alert">
+        <p class="alert-label">⚠ Importante</p>
+        <p>Al subir cada vídeo, ponlo en modo <strong>No listado</strong>. No lo dejes en público (lo vería todo el mundo) ni en privado (la persona que reciba el enlace no podría verlo). No listado significa que solo puede verlo quien tenga el enlace.</p>
+      </div>
+      <p>Una vez subidos, guarda los enlaces de cada vídeo porque los necesitarás más adelante.</p>
+    </div>
+  </div>
+
+  <!-- PASO 2 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div class="step-titles">
+        <p class="step-eyebrow">Paso 2</p>
+        <h2 class="step-title">Instala la skill de landing pages</h2>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>La skill es una habilidad entrenada específicamente para crear landings dentro de Claude Cowork. Sin ella el proceso no funciona igual de bien.</p>
+      <ol class="step-ol">
+        <li><div class="li-num">1</div><div class="li-txt">Descarga el archivo de la skill (lo encontrarás más abajo en la sección recursos).</div></li>
+        <li><div class="li-num">2</div><div class="li-txt">En Claude Cowork, ve a <strong>Customize → Skills</strong>.</div></li>
+        <li><div class="li-num">3</div><div class="li-txt">Haz clic en el botón <strong>+</strong> y selecciona <em>Cargar nueva habilidad</em>.</div></li>
+        <li><div class="li-num">4</div><div class="li-txt">Arrastra el archivo de la skill o búscalo en tu ordenador y ábrelo.</div></li>
+        <li><div class="li-num">5</div><div class="li-txt">Una vez instalada, aparecerá en tu lista de skills disponibles.</div></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- PASO 3 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div class="step-titles">
+        <p class="step-eyebrow">Paso 3</p>
+        <h2 class="step-title">Crea y selecciona una carpeta con tus materiales</h2>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Antes de abrir el chat, crea una carpeta en tu ordenador (en Descargas o en el Escritorio) y mete dentro las fotos de casos de éxito, las fotos de los pilares del programa y tu foto si quieres que aparezca. Cuantos más materiales reales tengas, mejor quedará.</p>
+      <p>Una vez tengas la carpeta lista, selecciónala en Claude Cowork para que tenga acceso a todos esos archivos.</p>
+    </div>
+  </div>
+
+  <!-- PASO 4 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div class="step-titles">
+        <p class="step-eyebrow">Paso 4</p>
+        <h2 class="step-title">Pídele que construya la landing y responde sus preguntas</h2>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Abre un nuevo chat. El modelo recomendado es <strong>Claude Sonnet 4.6</strong>, más que suficiente para esto y no consume el plan tan rápido. Escribe simplemente:</p>
+      <div class="prompt">
+        <div class="prompt-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+        </div>
+        <p>"Quiero crear una landing page para mi programa"</p>
+      </div>
+      <p>Claude detecta automáticamente la skill y empieza a hacerte preguntas en varias tandas. Respóndelas con la mayor precisión posible: nombre del programa, promesa principal con número concreto, colores de marca, pilares del programa, público objetivo y enlace del vídeo de YouTube. En 1-2 minutos tendrás la landing lista.</p>
+    </div>
+  </div>
+
+  <!-- PASO 5 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <div class="step-titles">
+        <p class="step-eyebrow">Paso 5</p>
+        <h2 class="step-title">Revisa y ajusta la landing</h2>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Cuando Claude termine, te dará un enlace para abrir el archivo. Ábrelo en el navegador y revísalo sección por sección.</p>
+      <p>Cualquier cosa que no te guste se cambia simplemente diciéndoselo en el mismo chat. Puedes pedirle que cambie textos, fotos, colores, añada o elimine secciones, modifique los casos de éxito, etc. Claude actualiza el archivo cada vez que se lo pides sin necesidad de volver a empezar.</p>
+      <div class="alert">
+        <p class="alert-label">💡 Recuerda</p>
+        <p>Aquí es el momento de facilitarle las URLs de los vídeos de YouTube si no se los diste anteriormente. <strong>No borres el chat</strong>: lo necesitarás para hacer cambios en el futuro.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASO 6 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">6</div>
+      <div class="step-titles">
+        <p class="step-eyebrow">Paso 6</p>
+        <h2 class="step-title">Publica la landing</h2>
+      </div>
+    </div>
+    <div class="step-body">
+      <p>Para que la persona pueda ver la landing desde su móvil u ordenador necesitas publicarla en internet. El proceso es gratuito y tarda unos 10 minutos.</p>
+
+      <div class="subsection">
+        <p class="subsection-title">Prepara el archivo</p>
+        <p>Localiza el archivo HTML en tu carpeta y cámbiale el nombre a <code>index.html</code> antes de subirlo. Este paso es imprescindible: si el archivo tiene otro nombre, la página no se mostrará correctamente.</p>
+      </div>
+
+      <div class="subsection">
+        <p class="subsection-title">Súbelo a GitHub</p>
+        <p>GitHub es un repositorio en la nube donde guardarás el archivo.</p>
+        <ol class="step-ol">
+          <li><div class="li-num">1</div><div class="li-txt">Ve a <strong>github.com</strong>, crea una cuenta o inicia sesión.</div></li>
+          <li><div class="li-num">2</div><div class="li-txt">Haz clic en <strong>New</strong> para crear un repositorio nuevo.</div></li>
+          <li><div class="li-num">3</div><div class="li-txt">Dale un nombre (ej: <code>mujer-empoderada</code>), ponlo en <strong>privado</strong> y haz clic en <em>Create repository</em>.</div></li>
+          <li><div class="li-num">4</div><div class="li-txt">Dentro del repositorio, haz clic en <strong>uploading an existing file</strong>.</div></li>
+          <li><div class="li-num">5</div><div class="li-txt">Arrastra tu <code>index.html</code> y haz clic en <strong>Commit changes</strong>.</div></li>
+        </ol>
+      </div>
+
+      <div class="subsection">
+        <p class="subsection-title">Despliégalo en Vercel</p>
+        <p>Vercel coge el archivo de GitHub y lo convierte en una web pública accesible desde cualquier dispositivo.</p>
+        <ol class="step-ol">
+          <li><div class="li-num">1</div><div class="li-txt">Ve a <strong>vercel.com</strong>, crea una cuenta gratuita o inicia sesión.</div></li>
+          <li><div class="li-num">2</div><div class="li-txt">Haz clic en <strong>Add New Project</strong>.</div></li>
+          <li><div class="li-num">3</div><div class="li-txt">Selecciona el repositorio que acabas de crear en GitHub y haz clic en <strong>Import</strong>.</div></li>
+          <li><div class="li-num">4</div><div class="li-txt">Deja todas las opciones por defecto y haz clic en <strong>Deploy</strong>.</div></li>
+          <li><div class="li-num">5</div><div class="li-txt">En 1-2 minutos tendrás tu URL pública (ej: <code>mujer-empoderada.vercel.app</code>). Ese es el enlace que le enviarás a cada persona que agende una llamada.</div></li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RECURSOS -->
+  <div class="recursos-section">
+    <p class="recursos-title">📦 Recursos</p>
+    <p class="recursos-sub">Todo lo que necesitas para seguir esta guía</p>
+    <div class="recurso-card" onclick="downloadSkill()">
+      <div class="recurso-icon">
+        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5z"/></svg>
+      </div>
+      <div class="recurso-info">
+        <p>Haz clic para descargar</p>
+        <strong>Skill — Generador de Landing Pages</strong>
+      </div>
+      <span class="recurso-cta">Descargar ↓</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>Creado con <strong>Claude Cowork</strong> · Automatia</p>
+  </div>
+
+</div>
+
+<script>
+function downloadSkill() {
+  const content = `---
+name: landing-page
+description: >
+  Crea landing pages interactivas y profesionales en un único archivo HTML autónomo a partir de los datos del negocio del usuario. Usa esta skill siempre que el usuario quiera crear, diseñar o generar una landing page, página de ventas, página de captación de leads o cualquier página web de presentación de un programa, servicio o producto. También actívala cuando el usuario mencione términos como "landing", "página de ventas", "sales page", "página de presentación", "quiero una web para mi programa" o "crea una página para captar clientes". La skill recoge todos los datos necesarios, procesa las imágenes (elimina fondos, crea sliders antes/después), genera HTML completo con diseño profesional y lo guarda como archivo listo para compartir con leads.
+---
+
+# Skill: Generador de Landing Pages Interactivas
+
+Creas landing pages HTML profesionales de una sola página, autónomas (todo embebido), listas para compartir con leads o subir a cualquier hosting. El resultado es siempre un único archivo \`.html\` que incluye CSS, JS e imágenes en base64.
+
+## Proceso general
+
+1. **Recoger datos** → usa \`AskUserQuestion\` para obtener la información antes de escribir código
+2. **Procesar imágenes** → eliminar fondos, redimensionar, convertir a base64 con Python/PIL/rembg
+3. **Generar HTML** → archivo completo con todas las secciones
+4. **Guardar y entregar** → copiar a la carpeta del workspace del usuario
+
+---
+
+## Paso 1 — Recoger la información
+
+Antes de generar nada, usa \`AskUserQuestion\` para recoger lo imprescindible.
+
+**Primera tanda:**
+- Nombre del programa y del profesional
+- Para quién es y para quién NO es
+- Objetivo: \`agendar_llamada\` / \`venta_directa\` / \`solo_contenido\` / \`captura_email\`
+- Colores de marca (color principal y fondo)
+- Enlace de acción (Calendly, WhatsApp, URL de pago, o ninguno)
+
+**Segunda tanda:**
+- Promesa principal con número concreto (ej: "−12 kg en 8 semanas")
+- Número de casos de éxito
+- Los 3-4 pilares del programa (qué incluye)
+- FAQ: 5-7 preguntas/objeciones del público objetivo
+- Vídeo del programa (URL YouTube/Vimeo, archivo local, o pendiente)
+
+**Activos visuales (pídelos o usa placeholders):**
+- Foto del profesional (idealmente con fondo blanco para recorte automático)
+- Fotos de casos de éxito (antes/después o solo resultado)
+- Fotos para los pilares del programa (una por pilar)
+- Vídeos de testimonios (URLs o archivos locales)
+
+Si falta algún elemento, crea un placeholder visual elegante.`;
+
+  const blob = new Blob([content], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'skill-landing-page.md';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
